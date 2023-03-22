@@ -6,11 +6,11 @@
   "name": "Recall Potion",
   "description": "A somewhat balanced potion to teleport you home!",
   "authors": [
-    "MultiBana"
+    "HaXrBOT"
   ],
   "contact": {
-    "homepage": "https://github.com/MultiBana/RecallPotion",
-    "sources": "https://github.com/MultiBana/RecallPotion"
+    "homepage": "https://github.com/HaXrBOT/RecallPotionBackport",
+    "sources": "https://github.com/HaXrBOT/RecallPotionBackport"
   },
 
   "license": "CC0-1.0",
@@ -26,9 +26,9 @@
     "recallpotion.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.14.10",
+    "fabricloader": ">=0.14.17",
     "fabric-api": "*",
-    "minecraft": "~1.19",
+    "minecraft": "~1.18",
     "java": ">=17"
   },
   "suggests": {

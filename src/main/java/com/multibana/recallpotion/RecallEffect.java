@@ -1,7 +1,6 @@
 package com.multibana.recallpotion;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
@@ -9,20 +8,13 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.tag.BlockTags;
-import net.minecraft.util.UseAction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
-import org.apache.logging.log4j.core.jmx.Server;
-import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.util.Objects;
 import java.util.Optional;
 
 public class RecallEffect extends StatusEffect {
@@ -43,7 +35,7 @@ public class RecallEffect extends StatusEffect {
         }
 
         if (spawn == null) {
-            spawn = player.world.getSpawnPos();
+            spawn = ((ServerWorld) player.world).getSpawnPos();
         }
         Optional<Vec3d> a = PlayerEntity.findRespawnPosition(destination, spawn, 0, true, true);
         if(a.isPresent()){
@@ -52,8 +44,8 @@ public class RecallEffect extends StatusEffect {
                 spawn = new BlockPos(a.get());
             }
             else{
-                Optional<Vec3d> b = PlayerEntity.findRespawnPosition(destination, player.world.getSpawnPos(), 0, true, true);
-                spawn = b.map(BlockPos::new).orElseGet(() -> player.world.getSpawnPos());
+                Optional<Vec3d> b = PlayerEntity.findRespawnPosition(destination, ((ServerWorld) player.world).getSpawnPos(), 0, true, true);
+                spawn = b.map(BlockPos::new).orElseGet(() -> ((ServerWorld) player.world).getSpawnPos());
                 if (target.isPlayer()){
                     ServerPlayerEntity tPlayer = (ServerPlayerEntity) target;
                     if(tPlayer.equals(player)){
