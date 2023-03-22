@@ -4,8 +4,9 @@
   "version": "${version}",
 
   "name": "Recall Potion",
-  "description": "A somewhat balanced potion to teleport you home!",
+  "description": "A quick and dirty backport of MultiBana's 'Recall Potion' mod for Fabric.",
   "authors": [
+    "MultiBana",
     "HaXrBOT"
   ],
   "contact": {
