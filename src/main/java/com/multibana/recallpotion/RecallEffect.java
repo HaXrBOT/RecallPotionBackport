@@ -38,13 +38,15 @@ public class RecallEffect extends StatusEffect {
 
         // If recalling in a dimension different from the player's spawn dimension, or null for some reason, fail.
         if (destination == null || !(spawnDimension.equals(serverWorld.getRegistryKey()))) {
-            Vec3d pos = target.getPos();
-            target.world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_REDSTONE_TORCH_BURNOUT, SoundCategory.PLAYERS, 1f, 1f);
+            failedTeleport(target);
             return;
         }
 
+        // If the player does not have a spawn location, fail.
         if (spawn == null) {
-            spawn = ((ServerWorld) player.world).getSpawnPos();
+            //spawn = ((ServerWorld) player.world).getSpawnPos();
+            failedTeleport(target);
+            return;
         }
         Optional<Vec3d> a = PlayerEntity.findRespawnPosition(destination, spawn, 0, true, true);
         if(a.isPresent()){
@@ -82,4 +84,11 @@ public class RecallEffect extends StatusEffect {
     public boolean canApplyUpdateEffect(int pDuration, int pAmplifier){
         return pDuration == 1;
     }
+
+    // Plays effects for failed teleports.
+    public void failedTeleport(LivingEntity pTarget){
+        Vec3d pos = pTarget.getPos();
+        pTarget.world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_REDSTONE_TORCH_BURNOUT, SoundCategory.PLAYERS, 1f, 1f);
+    }
+
 }
