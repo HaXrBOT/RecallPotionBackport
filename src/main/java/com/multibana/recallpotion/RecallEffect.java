@@ -49,11 +49,11 @@ public class RecallEffect extends StatusEffect {
         ServerWorld destination = ((ServerWorld) player.world).getServer().getWorld(spawnDimension); // Get the ServerWorld object of the spawn dimension
 
         // If the destination is null or in a different dimension than the player's spawn dimension, fail and play a sound at the target's position
-        System.out.println("[RecallPotion] Printing destination: " + destination);
+        //System.out.println("[RecallPotion] Printing destination: " + destination);
         BlockState blockState = destination.getBlockState(spawn);
         if (destination == null || !(spawnDimension.equals(serverWorld.getRegistryKey())) && blockState.isIn(BlockTags.BEDS)) {
             failedTeleport(target, player);
-            player.sendMessage(Text.of("The 'Potion of Recall' is not powerful enough to teleport across dimensions!"), false);
+            player.sendMessage(Text.of("The 'Potion of Recall' is not powerful enough to teleport across dimensions!"), true);
             return;
         }
 
@@ -61,7 +61,7 @@ public class RecallEffect extends StatusEffect {
         if (spawn == null) {
             //spawn = ((ServerWorld) player.world).getSpawnPos();
             failedTeleport(target, player);
-            player.sendMessage(Text.of("You do not have a home bed!"), false);
+            player.sendMessage(Text.of("You do not have a home bed!"), true);
             return;
         }
         // Find a suitable respawn position for the target in the destination world
@@ -73,12 +73,12 @@ public class RecallEffect extends StatusEffect {
 
             if(blockState.isIn(BlockTags.BEDS)){
                 spawn = new BlockPos(a.get());
-                System.out.println("[RecallPotion] {if(blockState.isIn(BlockTags.BEDS)} Setting player spawn location to: " + spawn);
+                //System.out.println("[RecallPotion] {if(blockState.isIn(BlockTags.BEDS)} Setting player spawn location to: " + spawn);
             }
             else if(!blockState.isIn(BlockTags.BEDS)){
                 failedTeleport(target, player);
-                player.sendMessage(Text.of("You do not have a home bed!"), false);
-                System.out.println("[RecallPotion] You have no home bed or charged respawn anchor, or it was obstructed: " + destination);
+                player.sendMessage(Text.of("You do not have a home bed!"), true);
+                //System.out.println("[RecallPotion] You have no home bed or charged respawn anchor, or it was obstructed: " + destination);
                 return;
             }
             // If no suitable respawn position is found, try using the world spawn point instead
