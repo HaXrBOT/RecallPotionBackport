@@ -12,6 +12,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.tag.BlockTags;
+import net.minecraft.text.Text;
 import net.minecraft.util.UseAction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -38,13 +39,15 @@ public class RecallEffect extends StatusEffect {
 
         // If recalling in a dimension different from the player's spawn dimension, or null for some reason, fail.
         if (destination == null || !(spawnDimension.equals(serverWorld.getRegistryKey()))) {
+            player.sendMessage(Text.of("The 'Potion of Recall' is not powerful enough to teleport across dimensions!"), true);
             failedTeleport(target);
             return;
         }
 
-        // If the player does not have a spawn location, fail.
+        // If the player does not have a spawn location assigned, fail.
         if (spawn == null) {
-            //spawn = ((ServerWorld) player.world).getSpawnPos();
+            //spawn = ((ServerWorld) player.world).getSpawnPos(); // Sets the players spawn to be the same as the world spawn.
+            player.sendMessage(Text.of("You do not have a home bed!"), true);
             failedTeleport(target);
             return;
         }
