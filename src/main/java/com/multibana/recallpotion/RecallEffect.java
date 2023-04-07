@@ -53,7 +53,7 @@ public class RecallEffect extends StatusEffect {
         BlockState blockState = destination.getBlockState(spawn);
         if (destination == null || !(spawnDimension.equals(serverWorld.getRegistryKey())) && blockState.isIn(BlockTags.BEDS)) {
             failedTeleport(target, player);
-            player.sendMessage(Text.of("The 'Potion of Recall' is not powerful enough to teleport across dimensions!"), true);
+            player.sendMessage(Text.of("The 'Potion of Recall' is not powerful enough to teleport across dimensions!"), false);
             return;
         }
 
@@ -61,7 +61,7 @@ public class RecallEffect extends StatusEffect {
         if (spawn == null) {
             //spawn = ((ServerWorld) player.world).getSpawnPos();
             failedTeleport(target, player);
-            player.sendMessage(Text.of("You do not have a home bed!"), true);
+            player.sendMessage(Text.of("You do not have a home bed!"), false);
             return;
         }
         // Find a suitable respawn position for the target in the destination world
@@ -77,7 +77,7 @@ public class RecallEffect extends StatusEffect {
             }
             else if(!blockState.isIn(BlockTags.BEDS)){
                 failedTeleport(target, player);
-                player.sendMessage(Text.of("You do not have a home bed!"), true);
+                player.sendMessage(Text.of("You do not have a home bed!"), false);
                 //System.out.println("[RecallPotion] You have no home bed or charged respawn anchor, or it was obstructed: " + destination);
                 return;
             }
