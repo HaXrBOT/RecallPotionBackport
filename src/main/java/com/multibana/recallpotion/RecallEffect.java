@@ -57,6 +57,10 @@ public class RecallEffect extends StatusEffect {
             if(blockState.isIn(BlockTags.BEDS)){
                 spawn = new BlockPos(a.get());
             }
+            else if(!blockState.isIn(BlockTags.BEDS)){
+                player.sendMessage(Text.of("Your current respawn point is not a bed!"), true);
+                failedTeleport(target);
+            }
             else{
                 Optional<Vec3d> b = PlayerEntity.findRespawnPosition(destination, ((ServerWorld) player.world).getSpawnPos(), 0, true, true);
                 spawn = b.map(BlockPos::new).orElseGet(() -> ((ServerWorld) player.world).getSpawnPos());
