@@ -37,8 +37,9 @@ public class RecallEffect extends StatusEffect {
         RegistryKey<World> spawnDimension = player.getSpawnPointDimension();
         ServerWorld destination = ((ServerWorld) player.world).getServer().getWorld(spawnDimension);
 
-        // If recalling in a dimension different from the player's spawn dimension, or null for some reason, fail.
-        if (destination == null || !(spawnDimension.equals(serverWorld.getRegistryKey()))) {
+
+        // Checks for whether the 'Bed' or 'Respawn Anchor' is in a different dimension.
+        if (destination == null || !(spawnDimension.equals(serverWorld.getRegistryKey())) && destination.getBlockState(spawn).isIn(BlockTags.BEDS) || !(spawnDimension.equals(serverWorld.getRegistryKey())) && destination.getBlockState(spawn).isIn(BlockTags.HOGLIN_REPELLENTS)) {
             player.sendMessage(Text.of("The 'Potion of Recall' is not powerful enough to teleport across dimensions!"), true);
             failedTeleport(target);
             return;
@@ -47,19 +48,19 @@ public class RecallEffect extends StatusEffect {
         // If the player does not have a spawn location assigned, fail.
         if (spawn == null) {
             //spawn = ((ServerWorld) player.world).getSpawnPos(); // Sets the players spawn to be the same as the world spawn.
-            player.sendMessage(Text.of("You do not have a home bed!"), true);
+            player.sendMessage(Text.of("You do not have a recall location!"), true);
             failedTeleport(target);
             return;
         }
         Optional<Vec3d> a = PlayerEntity.findRespawnPosition(destination, spawn, 0, true, true);
         if(a.isPresent()){
             BlockState blockState = destination.getBlockState(spawn);
-            if(blockState.isIn(BlockTags.BEDS)){
+            if(blockState.isIn(BlockTags.BEDS) || blockState.isIn(BlockTags.HOGLIN_REPELLENTS)){ // Checks for 'Beds' and 'Respawn Anchors'
                 spawn = new BlockPos(a.get());
             }
             // Fails the teleport if the block at the respawn location is not a bed.
             else{
-                player.sendMessage(Text.of("Your respawn point is not a bed!"), true);
+                player.sendMessage(Text.of("You do not have a recall location!"), true);
                 failedTeleport(target);
                 return;
             }
