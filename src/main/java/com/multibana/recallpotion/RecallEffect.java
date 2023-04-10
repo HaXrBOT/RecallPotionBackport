@@ -38,13 +38,6 @@ public class RecallEffect extends StatusEffect {
         ServerWorld destination = ((ServerWorld) player.world).getServer().getWorld(spawnDimension);
 
 
-        // Checks for whether the 'Bed' or 'Respawn Anchor' is in a different dimension.
-        if (destination == null || !(spawnDimension.equals(serverWorld.getRegistryKey())) && destination.getBlockState(spawn).isIn(BlockTags.BEDS) || !(spawnDimension.equals(serverWorld.getRegistryKey())) && destination.getBlockState(spawn).isIn(BlockTags.HOGLIN_REPELLENTS)) {
-            player.sendMessage(Text.of("The 'Potion of Recall' is not powerful enough to teleport across dimensions!"), true);
-            failedTeleport(target);
-            return;
-        }
-
         // If the player does not have a spawn location assigned, fail.
         if (spawn == null) {
             //spawn = ((ServerWorld) player.world).getSpawnPos(); // Sets the players spawn to be the same as the world spawn.
@@ -52,6 +45,14 @@ public class RecallEffect extends StatusEffect {
             failedTeleport(target);
             return;
         }
+
+        // Checks for whether the 'Bed' or 'Respawn Anchor' is in a different dimension.
+        if (destination == null || !(spawnDimension.equals(serverWorld.getRegistryKey())) && destination.getBlockState(spawn).isIn(BlockTags.BEDS) || !(spawnDimension.equals(serverWorld.getRegistryKey())) && destination.getBlockState(spawn).isIn(BlockTags.HOGLIN_REPELLENTS)) {
+            player.sendMessage(Text.of("The 'Potion of Recall' is not powerful enough to teleport across dimensions!"), true);
+            failedTeleport(target);
+            return;
+        }
+
         Optional<Vec3d> a = PlayerEntity.findRespawnPosition(destination, spawn, 0, true, true);
         if(a.isPresent()){
             BlockState blockState = destination.getBlockState(spawn);
